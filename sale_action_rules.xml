@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="filter_sales_order" model="ir.filters">
+            <field name="model_id">sale.order</field>
+            <field name="domain">[('state', '=', 'progress')]</field>
+            <field name="name">Sales Order</field>
+            <field name="user_id" eval="False"/>
+        </record>
+
+        <record id="action_email_sale_order" model="ir.actions.server">
+            <field name="name">Sale Order Notification</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="condition">True</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">email</field>
+            <field name="email">object.partner_id.email</field>
+            <field name="subject">Sale Order [[object.name ]] notification</field>
+            <field name="message">Sale Order [[object.name ]] has status Sale Order.</field>
+        </record>
+
+        <record id="action_rule_sale_order" model="base.action.rule">
+            <field name="name">Sale Order Action</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="sequence">10</field>
+            <field name="filter_pre_id" ref="filter_sales_order"/>
+            <field name="server_action_ids" eval="[(6,0,[ref('action_email_sale_order')])]"/>
+        </record>
+
+    </data>
+</openerp>

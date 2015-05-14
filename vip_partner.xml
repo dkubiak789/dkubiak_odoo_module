@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem id="base.menu_product" name="VIP Partners" parent="base.menu_base_partner" sequence="99"/>
+
+        <record id="view_vip_partner_tree" model="ir.ui.view">
+            <field name="name">vip.partner.tree</field>
+            <field name="model">vip.partner</field>
+            <field name="arch" type="xml">
+                <tree string="VIP Customers">
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="birth_date"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_vip_partner_form" model="ir.ui.view">
+            <field name="name">vip.partner.form</field>
+            <field name="model">vip.partner</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="VIP Partners" version="7.0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                        </group>
+                        <group>
+                            <field name="birth_date"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_vip_partner" model="ir.actions.act_window">
+            <field name="name">VIP Partner</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vip.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new VIP Partner.
+              </p><p>
+                OpenERP helps you easily track all VIP Partners,
+                history of business contacts, documents, etc.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_vip_partner_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_vip_partner_form"/>
+            <field name="act_window_id" ref="action_vip_partner"/>
+        </record>
+
+        <record id="action_vip_partner_tree_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_vip_partner_tree"/>
+            <field name="act_window_id" ref="action_vip_partner"/>
+        </record>
+
+        <menuitem id="menu_vip_partner_form" parent="base.menu_sales" action="action_vip_partner" sequence="1"/>
+
+       <record id="view_vip_partner_filter" model="ir.ui.view">
+            <field name="name">vip.partner.select</field>
+            <field name="model">vip.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search VIP Partner">
+                   <filter string="All VIP Partners" name="active" domain="['|', ['active', '=', True], ['active', '!=', True]]"/>
+               </search>
+            </field>
+        </record>
+
+    </data>
+</openerp>
