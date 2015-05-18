@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_server_action_form_inherit" model="ir.ui.view">
+            <field name="name">Server Action</field>
+            <field name="model">ir.actions.server</field>
+            <field name="inherit_id" ref="base.view_server_action_form"/>
+            <field name="arch" type="xml">
+                <field name="srcmodel_id" position="attributes">
+                    <attribute name="attrs">{'required':[('state','!=','dummy'), ('state','!=','sms'), ('state','!=','code'), ('state','!=','loop'), ('state','!=','trigger'), ('state','!=','object_copy'), ('state','!=','client_action'), ('state','!=','email'), ('state','!=','sms'), ('state','!=','other'), ('state','!=','template')]}</attribute>
+                </field>
+                <notebook position="inside">
+                    <page string="Email Template" attrs="{'invisible':[('state','!=','template')]}">
+                        <group>
+                            <group col="2">
+                                <field name="email_template_id" colspan="2"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

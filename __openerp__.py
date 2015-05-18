@@ -19,6 +19,7 @@ VIP Partner is a simple example of model with tree and form views.
     'data': [
         'sale_action_rules.xml',
         'vip_partner.xml',
+        'ir_actions.xml',
         'security/ir.model.access.csv',
     ],
     'installable': True,
