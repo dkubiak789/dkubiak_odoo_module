@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.request_approval.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <button name="action_button_confirm" position="attributes">
+                    <attribute name="groups">base.group_sale_manager</attribute>
+                    <attribute name="states">sent,request_approval</attribute>
+                </button>
+                <button name="action_button_confirm" position="before">
+                    <button name="action_button_request" states="draft" string="Requet Approval" type="object" groups="base.group_user"/>
+                    <button name="action_button_request" states="sent" string="Requet Approval" class="oe_highlight" type="object" groups="base.group_user"/>
+                </button>
+                <button name="action_quotation_send" position="after">
+                    <button name="action_quotation_send" string="Send by Email" type="object" states="request_approval" groups="base.group_user"/>
+                </button>
+                <button name="print_quotation" position="after">
+                    <button name="print_quotation" string="Print" type="object" states="request_approval" groups="base.group_user"/>
+                </button>
+                <button name="cancel" position="after">
+                    <button name="cancel" states="request_approval" string="Cancel Quotation" groups="base.group_user"/>
+                </button>
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">draft,sent,request_approval,progress,done</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

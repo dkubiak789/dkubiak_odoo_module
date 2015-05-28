@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
+
+_logger = logging.getLogger(__name__)
 
 class email_template(osv.osv):
     "Templates for sending email"
@@ -38,9 +41,14 @@ class email_template(osv.osv):
                 if partner_id:  # placeholders could generate '', 3, 2 due to some empty field values
                     recipient_ids.append(int(partner_id))
 
+        # get recipient_ids from context
+        for recipient_id in context.pop('recipient_ids', []):
+            recipient_ids.append(int(recipient_id))
+
         attachment_ids = values.pop('attachment_ids', [])
         attachments = values.pop('attachments', [])
         attachments = context.pop('attachments', [])  # get attachment from context
+
         msg_id = mail_mail.create(cr, uid, values, context=context)
         mail = mail_mail.browse(cr, uid, msg_id, context=context)
 
@@ -59,6 +67,7 @@ class email_template(osv.osv):
             values['attachment_ids'] = [(6, 0, attachment_ids)]
             mail_mail.write(cr, uid, msg_id, {'attachment_ids': [(6, 0, attachment_ids)]}, context=context)
 
+        _logger.debug("send_mail() recipient_ids=%s, context=%s" % (recipient_ids, context))
         if force_send:
             mail_mail.send(cr, uid, [msg_id], recipient_ids=recipient_ids, context=context)
         return msg_id
